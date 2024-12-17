@@ -100,7 +100,7 @@ Oracle ZDM supports Source Oracle Databases hosted on Linux, Solaris, and AIX op
 
 An architectural overview of the ZDM Server, your source Database on-premises, the target database Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D) on Oracle Database@Google Cloud, and all Networks and components required are described in the diagram below:
 
-![](C:/Users/khyagarw/Desktop/python/technical-brief-from-confluence/attachments/12790934581/12780821909.png)
+![](attachments/12790934581/12780821909.png)
 
 Figure 1. This is a High-Level Architectural overview showcasing the customer data center where the source database and ZDM’s server reside. It also shows all connectivity to the target Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D) on Oracle Database@Google Cloud.
 
