@@ -1,0 +1,549 @@
+﻿<!DOCTYPE html><html><head><style>body { font-family:"Oracle Sans",-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;overflow: visible;} code {font-family: "Courier New", Courier, monospace;} .betatext {color:#C74634; font-size:14px;}  .pagebreak {page-break-after: always;} .iad-title {margin-top:100px;} .oracledatabase {font-size: 38px;} .bookname {font-size: 44px;} .confidentialnotice {margin-top:350px;margin-bottom:30px} .confidentialnotice p {margin:4px;color:#C74634;} .oracleconfidential {font-weight:bold;} .iad-details p {font-size:16px; margin:4px;} .application-name {color:red;font-size:24px;}  .logo {margin-top:30px;} .logo img {width:150px} .copyright {font-size:14px;} .betanotice {float:right;color:#C74634;} .red {color:#C74634;}; h1,h2,h3,h4 {page-break-after:avoid !important; break-after:avoid !important;float:none;} h2 {page-break-before:always !important;} .sect3{page-break-inside:avoid;}</style></head><body>
+<div class="iad-title"><p class="oracledatabase">Oracle Database&reg;</p><p class="bookname">Oracle Zero Downtime Migration</p></div>
+<div class="confidentialnotice"><p class="oracleconfidential">&nbsp;</p><p class="authorized-users">&nbsp;</p><p>&nbsp;</p></div>
+<div class="iad-details"><p class="release">Release 23ai</p><p>Fxxxx-xx</p><p>December 16, 2024</p></div>
+<div class="logo"><img src="images/oracle-logo-150.svg"/></div>
+<br style="page-break-before: always">
+<div class='copyright'><p>Oracle® Database, Oracle Zero Downtime Migration, Release 23ai</p><p>Fxxxx-xx</p><p>Copyright &copy; 2023, 2024, Oracle and/or its affiliates.</p><p>This software and related documentation are provided under a license agreement containing restrictions on use and disclosure and are protected by intellectual property laws. Except as expressly permitted in your license agreement or allowed by law, you may not use, copy, reproduce, translate, broadcast, modify, license, transmit, distribute, exhibit, perform, publish, or display any part, in any form, or by any means. Reverse engineering, disassembly, or decompilation of this software, unless required by law for interoperability, is prohibited.</p><p>The information contained herein is subject to change without notice and is not warranted to be error-free. If you find any errors, please report them to us in writing.</p><p>If this is software, software documentation, data (as defined in the Federal Acquisition Regulation), or related documentation that is delivered to the U.S. Government or anyone licensing it on behalf of the U.S. Government, then the following notice is applicable:</p><p>U.S. GOVERNMENT END USERS: Oracle programs (including any operating system, integrated software, any programs embedded, installed, or activated on delivered hardware, and modifications of such programs) and Oracle computer documentation or other Oracle data delivered to or accessed by U.S. Government end users are &quot;commercial computer software,&quot; &quot;commercial computer software documentation,&quot; or &quot;limited rights data&quot; pursuant to the applicable Federal Acquisition Regulation and agency-specific supplemental regulations. As such, the use, reproduction, duplication, release, display, disclosure, modification, preparation of derivative works, and/or adaptation of i) Oracle programs (including any operating system, integrated software, any programs embedded, installed, or activated on delivered hardware, and modifications of such programs), ii) Oracle computer documentation and/or iii) other Oracle data, is subject to the rights and limitations specified in the license contained in the applicable contract. The terms governing the U.S. Government's use of Oracle cloud services are defined by the applicable contract for such services. No other rights are granted to the U.S. Government.</p><p>This software or hardware is developed for general use in a variety of information management applications. It is not developed or intended for use in any inherently dangerous applications, including applications that may create a risk of personal injury. If you use this software or hardware in dangerous applications, then you shall be responsible to take all appropriate fail-safe, backup, redundancy, and other measures to ensure its safe use. Oracle Corporation and its affiliates disclaim any liability for any damages caused by use of this software or hardware in dangerous applications.</p><p>Oracle&reg;, Java, and MySQL are registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners.</p><p>Intel and Intel Inside are trademarks or registered trademarks of Intel Corporation. All SPARC trademarks are used under license and are trademarks or registered trademarks of SPARC International, Inc. AMD, Epyc, and the AMD logo are trademarks or registered trademarks of Advanced Micro Devices. UNIX is a registered trademark of The Open Group.</p><p>This software or hardware and documentation may provide access to or information about content, products, and services from third parties. Oracle Corporation and its affiliates are not responsible for and expressly disclaim all warranties of any kind with respect to third-party content, products, and services unless otherwise set forth in an applicable agreement between you and Oracle. Oracle Corporation and its affiliates will not be responsible for any loss, costs, or damages incurred due to your access to or use of third-party content, products, or services, except as set forth in an applicable agreement between you and Oracle.</p></div>
+<article id="content">
+<div class="page">
+<a id="GUID-12790934581" name="GUID-12790934581"></a>
+<h2 id="ABCDE-GUID-12790934581">Oracle Zero Downtime Migration - Physical Online Migration to ExaDB-D on Oracle Database@Google Cloud</h2>
+
+<DIV id=main-content class="wiki-content group"><h3 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Purposestatement class=page-break>Purpose statement</h3>
+<P>Oracle customers are rapidly increasing their workload migration into the Oracle Cloud, Engineered Systems, and Oracle Database@Google Cloud. However, migrating workloads has been a source of challenges for many years. Migrating database workloads from one system to another or into the Cloud is easier said than done.</P>
+<P>Based on years of experience migrating Oracle workloads, Oracle has developed Zero Downtime Migration (ZDM). ZDM is Oracle’s premier solution for a simplified and automated migration experience, providing zero to negligible downtime for the production system depending on the migration scenario. ZDM allows you to migrate your on-premises Oracle Databases directly and seamlessly to and between Oracle Database@Azure, Oracle Database@Google Cloud, Oracle Database@AWS, and any Oracle-owned infrastructure, including Exadata Database Machine On-Premises, Exadata Cloud at Customer, and Oracle Cloud Infrastructure. Oracle ZDM supports a wide range of Oracle Database versions and, as the name implies, ensures minimal to no production database impact during the migration.</P>
+<P>ZDM follows Oracle Maximum Availability Architecture (MAA) principles<SUP><a href="#_ftn1" rel=nofollow><SPAN>[1]</SPAN></a> </SUP>and incorporates products such as GoldenGate and Data Guard to ensure High Availability and an online migration workflow that leverages technologies such as the Recovery Manager, Data Pump, and Database Links.&nbsp;</P>
+<P>This technical brief is a step-by-step guide for migrating your on-premises Oracle Databases to Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D) on Oracle Database@Google Cloud, with ZDM’s Physical Online workflow, specifically the Direct Data Transfer methodology.</P>
+<P>Oracle ZDM will run on a separate node and connect to Source and Target to perform the migration. This guide will cover all requirements for installing the Oracle ZDM Service Host, the Source Database, the Target Database recipient of the migration process, and the networking used. The migration process will be dissected and done in a step-by-step fashion. This guide will answer the most frequently asked questions regarding the product and the overall migration process.</P>
+<P>For more information on Oracle Zero Downtime Migration, please visit ZDM’s product website and Oracle Database@Google Cloud product website.<SUP><a href="#_ftn2" rel=nofollow>[2]</a></SUP></P>
+<P><SPAN style="FONT-SIZE: 20px; LETTER-SPACING: 0em">Disclaimer</SPAN></P>
+<P>This document in any form, software or printed matter, contains proprietary information that is the exclusive property of Oracle. Your access to and use of this confidential material is subject to the terms and conditions of your Oracle software license and service agreement, which has been executed and with which you agree to comply. This document and information contained herein may not be disclosed, copied, reproduced or distributed to anyone outside Oracle without prior written consent of Oracle. This document is not part of your license agreement nor can it be incorporated into any contractual agreement with Oracle or its subsidiaries or affiliates.</P>
+<P>This document is for informational purposes only and is intended solely to assist you in planning for the implementation and upgrade of the product features described. It is not a commitment to deliver any material, code, or functionality, and should not be relied upon in making purchasing decisions. The development, release, timing, and pricing of any features or functionality described in this document remains at the sole discretion of Oracle. Due to the nature of the product architecture, it may not be possible to safely include all features described in this document without risking significant destabilization of the code.</P>
+
+
+<h3 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-TableofContents class=page-break>Table of Contents</h3>
+<P>
+<STYLE type=text/css>/*<![CDATA[*/
+div.rbtoc1734382496378 {padding: 0px;}
+div.rbtoc1734382496378 ul {margin-left: 0px;}
+div.rbtoc1734382496378 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</STYLE>
+
+<DIV class="toc-macro rbtoc1734382496378">
+<UL class=toc-indentation>
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Purpose statement</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Table of Contents</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Zero Downtime Migration</a> 
+<UL class=toc-indentation>
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Supported Configurations</a> </LI></UL>
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Architecture</a> 
+<UL class=toc-indentation>
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Zero Downtime Migration Service Host</a> 
+<UL class=toc-indentation>
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Zero Downtime Migration Service Host Requirements</a> </LI></UL>
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Network and Connectivity</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Source Database</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Target Database</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Source and Target Database Pre-Requisites</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Additional Configuration</a> 
+<UL class=toc-indentation>
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">SSH Key</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">TDE Wallet</a> </LI></UL></LI></UL>
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Database Migration Step by Step with ZDM</a> 
+<UL class=toc-indentation>
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Step 1: Prepare the Source Database Host On-Premises</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Step 2: Prepare the Source Database On-Premises</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Step 3: Prepare the target database host on ExaDB-D on Oracle Database@Google Cloud</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Step 4: Prepare the ZDM Service Host On-Premises</a> 
+<LI><a href="#OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Step5:SetSQL*Netconnectivitybetweensourceandtargetdatabasehosts">Step 5: Set SQL*Net connectivity between source and target database hosts</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Step 6: Create the Physical Online Migration Response File on the ZDM host</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Step 7: Evaluate the Configuration</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Step 8: Initiate the Migration</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Step 9: Complete the Migration</a> </LI></UL>
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Known Issues</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Troubleshooting &amp; Other Resources</a> 
+<LI><a rel="noopener" target="_blank" href="#GUID-https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=12790934581#_ftnref4">Footnotes</a> </LI></UL></DIV>
+<P></P>
+
+
+<h3 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-ZeroDowntimeMigration>Zero Downtime Migration</h3>
+<P>Oracle Zero Downtime Migration (ZDM) is the Oracle Maximum Availability Architecture (MAA)-recommended solution to migrate Oracle Databases to the Oracle Cloud. ZDM's inherent design keeps in mind the migration process as straightforward as possible to ensure the most negligible impact on production workloads. The Source Database to be migrated can be on-premises, deployed on Oracle Cloud Infrastructure, or a 3<SUP>rd</SUP> Party Cloud. The Target Database deployment can be on Oracle Database@Azure, Oracle Database@Google Cloud, Oracle Database@AWS, Database Cloud Service on Oracle Cloud Infrastructure (OCI) Virtual Machine, Exadata Cloud Service, Exadata Cloud at Customer, and Autonomous Database. ZDM automates the entire migration process, reducing the chance of human errors. ZDM leverages Oracle Database-integrated high availability (HA) technologies such as Oracle Data Guard and GoldenGate and follows all MAA best practices that ensure no significant downtime of production environments. Oracle ZDM supports both Physical and Logical Migration workflows. This technical brief covers a step-by-step guide for the Physical Online Migration Workflow leveraging Direct Data Transfer Methodology.</P>
+<P>A standard Physical Online migration with Direct Data Transfer will take the following steps:</P>
+<OL>
+<LI>Download and Configure ZDM.
+<LI>ZDM Starts Database Migration.
+<LI>ZDM Starts a Restore from Service Operation.
+<LI>ZDM Instantiates a Standby Database.
+<LI>ZDM Synchronizes Primary and Standby.
+<LI>ZDM Switches Over &amp; Swap Roles.
+<LI>ZDM Performs Post Migration Validations.
+<LI>ZDM Finalizes the Migration.</LI></OL>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-SupportedConfigurations>Supported Configurations</h4>
+<P>Oracle ZDM supports Oracle Database versions 11.2.0.4, 12.1.0.2, 12.2.0.1, 18c, 19c, 21c, and 23ai. ZDM’s physical migration workflow requires the Source and Target Databases to be in the same database release.</P>
+<P>Oracle ZDM supports Source Oracle Databases hosted on Linux, Solaris, and AIX operating systems. Oracle ZDM supports single-instance databases, Oracle RAC One Node databases, or Oracle RAC databases as sources. Oracle ZDM supports Oracle Database Enterprise &amp; Standard Edition as Source and Target Databases. &nbsp;ZDM’s physical migration workflow supports only Source Databases hosted on Linux platforms.</P>
+<h3 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Architecture>Architecture</h3>
+<P>An architectural overview of the ZDM Server, your source Database on-premises, the target database Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D) on Oracle Database@Google Cloud, and all Networks and components required are described in the diagram below:</P>
+<P><SPAN style="COLOR: rgb(255,0,0)"><SPAN class=confluence-embedded-file-wrapper><IMG class=confluence-embedded-image alt="" src="attachments/12790934581/12780821909.png" data-linked-resource-container-version="30" data-linked-resource-container-id="12790934581" data-linked-resource-content-type="image/png" data-base-url="https://confluence.oraclecorp.com/confluence" data-linked-resource-default-alias="architectural overview.png" data-linked-resource-type="attachment" data-linked-resource-version="1" data-linked-resource-id="12780821909" data-unresolved-comment-count="0" data-image-src="attachments/12790934581/12780821909.png" draggable="false"></SPAN></SPAN></P>
+<P><SUB>Figure 1. This is a High-Level Architectural overview showcasing the customer data center where the source database and ZDM’s server reside. It also shows all connectivity to the target Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D) on Oracle Database@Google Cloud.</SUB></P>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-ZeroDowntimeMigrationServiceHost>Zero Downtime Migration Service Host</h4>
+<h5 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-ZeroDowntimeMigrationServiceHostRequirements>Zero Downtime Migration Service Host Requirements</h5>
+<P>Oracle Zero Downtime Migration installation must take place on a separate host, which must fulfill the following requirements:</P>
+<UL>
+<LI>Linux host running on Oracle 7, 8, or RHEL 8 (only these OS platforms/versions are supported).
+<LI>100 GB of free storage space. This space is required for all the logs that ZDM will generate.
+<LI>A zdm group and a zdmuser as part of this group.
+<LI>The following packages must be installed:
+<UL>
+<LI>glibc-devel
+<LI>expect
+<LI>unzip
+<LI>libaio
+<LI>oraclelinux-developer-release-el7</LI></UL>
+<LI>All hostnames and IP addresses to be used must be present as entries in the /etc/hosts file.</LI></UL>
+<P>For more information on the ZDM Service Host requirements and setting up ZDM on RHEL platforms, please refer to Oracle ZDM’s product documentation, specifically “Setting Up Zero Downtime Migration Software” section<SUP><a href="#_ftn3" rel=nofollow>[3]</a></SUP>.</P>
+<P>For this step-by-step guide, the ZDM Service Host runs on-premises on an Oracle Linux Server 8.9. The host private IP is masked for this guide, but as an example we will use the fictional <EM><STRONG>zz.dd.mm.hh</STRONG></EM> and the hostname is&nbsp;<EM><STRONG>zdmhost</STRONG></EM>.</P>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-NetworkandConnectivity>Network and Connectivity</h4>
+<P><STRONG>Google Cloud Region</STRONG><STRONG><BR></STRONG>A Google Cloud region is a geographical area that contains data centers and infrastructure for hosting resources. It is made up of zones that are isolated from each other within the region.</P>
+<P><STRONG>Google Cloud Project</STRONG><BR>A Google Cloud Project is required to use Google Workspace APIs and build Google Workspace add-ons or apps. A Cloud project forms the basis for creating, enabling, and using all Google Cloud services, including managing APIs, enabling billing, adding and removing collaborators, and managing permissions.</P>
+<P><STRONG>Google Virtual Private Cloud<BR></STRONG>Google Cloud Virtual Private Cloud (VPC) provides networking functionality to Compute Engine virtual machine (VM) instances, Google Kubernetes Engine (GKE) containers, database services, and serverless workloads. VPC provides global, scalable, and flexible networking for your cloud-based service.</P>
+<P><STRONG>Google Cloud Interconnect&nbsp;</STRONG><BR>Cloud Interconnect extends your on-premises network to the Google network through a highly available, low-latency connection. You can use Dedicated Interconnect to connect directly to Google or Partner Interconnect to connect to Google through a supported service provider.</P>
+<P><STRONG>Oracle Exadata Database Service</STRONG><BR>Oracle Exadata Database Service enables you to leverage the power of Exadata in the cloud. It delivers proven Oracle Database capabilities on purpose-built, optimized Oracle Exadata infrastructure in the public cloud and on Cloud@Customer. Built-in cloud automation, elastic resource scaling, security, and fast performance for all Oracle Database workloads help you simplify management and reduce costs.</P>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-SourceDatabase>Source Database</h4>
+<P>The source database runs on-premises on an Oracle Linux Server 7.7 for this step-by-step guide. The host private IP is masked for this guide, but as an example, we will use the fictional aa.bb.sr.db address, and the hostname is&nbsp;<EM><STRONG>onphost</STRONG></EM>.</P>
+<P>The source Oracle database is a single-instance Enterprise Edition database version 19.21 with multitenant architecture. The database name is <EM><STRONG>oradb</STRONG></EM><EM>, and it</EM>s unique name is <STRONG><EM>oradb_onp</EM></STRONG>.</P>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-TargetDatabase>Target Database</h4>
+<P>Oracle Database@Google Cloud&nbsp;offers the following products:</P>
+<UL>
+<LI><STRONG>Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D)</STRONG>
+<UL>
+<LI>You can provision flexible Exadata systems that allow you to add database compute servers and storage servers to your system anytime after provisioning.<BR><BR></LI></UL>
+<LI><STRONG>Oracle Autonomous Database&nbsp;Serverless&nbsp;(ADB-S)</STRONG>
+<UL>
+<LI>Autonomous Database&nbsp;provides an easy-to-use, fully autonomous database that scales elastically, delivers fast query performance, and requires no database administration.</LI></UL></LI></UL>
+<P>Oracle Database@Google Cloud&nbsp;integrates&nbsp;Oracle Exadata Database Service,&nbsp;Oracle Real Application Clusters (Oracle RAC), and&nbsp;Oracle Data Guard&nbsp;technologies into the&nbsp;Google Cloud&nbsp;platform. The Oracle Database service runs on Oracle Cloud Infrastructure (OCI) and is co-located in&nbsp;Google’s&nbsp;data centers. The service offers features and price parity with OCI.</P>
+<P>Oracle Database@Google Cloud&nbsp;service offers the same low latency as other&nbsp;Google-native services and meets mission-critical workloads and cloud-native development needs. Users manage the service on the&nbsp;Google Cloud&nbsp;console and with&nbsp;Google Cloud&nbsp;automation tools. The service is deployed in&nbsp;Google Virtual Private Cloud (VPC). The service requires that users have a Google Cloud Project and an OCI tenancy.</P>
+<P>For this step-by-step guide, the target platform is Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D) on Oracle Database@Google Cloud. The infrastructure contains a 2-node VM cluster. The VM cluster host private IPs are masked for this guide, but as an example, we will use the fictional <STRONG>ta.db.og.1</STRONG> and <STRONG>ta.db.og.2</STRONG>, and the host names are <EM><STRONG>exadbgoogle1</STRONG></EM> and <EM><STRONG>exadbgoogle2</STRONG></EM>.</P>
+<P>ZDM requires configuring a placeholder database target environment before beginning the migration process.</P>
+<P>The target Oracle database is a 2-node Oracle RAC version 19.22 with multitenant architecture created using Oracle Cloud Console. The database name is&nbsp;<EM><STRONG>oradb </STRONG></EM>(the same as the source database)<EM>, and the database's unique name is <STRONG>oradb_exa</STRONG> (different from the source database’s</EM><EM> unique name).</EM></P>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-SourceandTargetDatabasePre-Requisites>Source and Target Database Pre-Requisites</h4>
+<P>Oracle ZDM uses the provisioned placeholder database target as a template and recreates the target as a standby database from the source during migration. The following prerequisites must be met before starting the migration process:</P>
+<UL>
+<LI>The target database must be provisioned using Oracle Cloud Tooling without enabling automatic backups.
+<LI>The source and target databases must have the same database name (DB_NAME).
+<LI>The source and target databases must have different database unique names (DB_UNIQUE_NAME).
+<LI>The source and target databases must use a server parameter file (SPFILE).
+<LI>The source and target databases must use the same character set.
+<LI>The source and target databases must have the same encryption algorithm defined in the sqlnet.ora file.
+<LI>The SYS user account password must be the same on the source and target databases.
+<LI>The COMPATIBLE database initialization parameter must be the same on the source and target databases.
+<LI>The source and target databases must have the same major release version (e.g., 19c). However, the target database could have a higher patch level (e.g., source at 19.21 and target at 19.22). If the target database is at a higher patch than the source database, ZDM automatically runs datapatch as part of the migration.
+<LI>The target database must have a time zone file version that is the same or higher than the source database.
+<LI>For Oracle Database 12c Release 2 and later, the TDE wallet must exist on the source, and the wallet status must be OPEN. The source database does not necessarily need to be encrypted, but a TDE wallet must be configured.
+<LI>ZDM requires the SSH key on the ZDM Service Host to be in RSA format (In Oracle Linux 8, the default is OpenSSH).</LI></UL>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-AdditionalConfiguration>Additional Configuration</h4>
+<h5 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-SSHKey>SSH Key</h5>
+<P>Check the key format:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ head -n1 id_rsa</PRE></DIV></DIV>
+<P>Create an SSH Key in RSA format (if not already created):</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ ssh-keygen -m PEM -t rsa</PRE></DIV></DIV>
+<P>Change an existing SSH key into RSA format (if already created and need to reformat):</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ ssh-keygen -p -m PEM -f id_rsa</PRE></DIV></DIV>
+<h5 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-TDEWallet>TDE Wallet</h5>
+<P>If your source database is not TDE enabled, follow these steps to create an auto-login wallet. Please visit the Database Reference guide for more information regarding the WALLET_ROOT parameter.<SUP><a href="#_ftn4" rel=nofollow>[4]</a></SUP></P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">mkdir $ORACLE_BASE/admin/$ORACLE_SID/wallet
+
+mkdir $ORACLE_BASE/admin/$ORACLE_SID/wallet/tde
+
+
+alter session set container=cdb$root;
+
+alter system set wallet_root='$ORACLE_BASE/admin/$ORACLE_SID/wallet' scope=spfile;
+
+shutdown immediate;
+
+startup;
+
+
+alter system set tde_configuration='KEYSTORE_CONFIGURATION=FILE' scope=both;
+
+administer key management create keystore identified by &lt;your_TDE_password&gt;;
+
+administer key management set keystore open identified by &lt;your_TDE_password&gt; container=ALL;
+
+administer key management set key identified by &lt;your_TDE_password&gt; with backup container=ALL;
+
+administer key management create auto_login keystore from keystore '$ORACLE_BASE/admin/$ORACLE_SID/wallet/tde' identified by &lt;your_TDE_password&gt;;
+
+administer key management set keystore close identified by &lt;your_TDE_password&gt; container=ALL;
+
+select * from v$encryption_wallet; --will open the auto-login wallet
+
+
+
+set lines 300
+
+set pages 100
+
+col name for a20
+
+col wrl_type for a10
+
+col status for a15
+
+col wallet_order for a15
+
+col key_id for a60
+
+col keystore_type for a20
+
+col origin for a20
+
+col encryptionalg for a15
+
+col encryptedts for a15
+
+col inst_id for 999
+
+col value for a60
+
+
+
+select p.con_id, p.name, p.open_mode, ew.wrl_type, ew.wallet_type, ew.status, ew.wallet_order
+
+from v$pdbs p join v$encryption_wallet ew on (ew.con_id = p.con_id)
+
+order by p.con_id;
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;CON_ID NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OPEN_MODE&nbsp; WRL_TYPE&nbsp;&nbsp; WALLET_TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WALLET_ORDER
+
+---------- -------------------- ---------- ---------- -------------------- --------------- ---------------
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 PDB$SEED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; READ ONLY&nbsp; FILE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AUTOLOGIN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OPEN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SINGLE
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 OPDB4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; READ WRITE FILE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AUTOLOGIN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OPEN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SINGLE
+
+
+
+select con_id, key_id, keystore_type, origin from v$encryption_keys;
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;CON_ID KEY_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; KEYSTORE_TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORIGIN
+
+---------- ------------------------------------------------------------ -------------------- --------------------
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 AXLpMpzxoU/dvxXhn/okVMkAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SOFTWARE KEYSTORE&nbsp;&nbsp;&nbsp; LOCAL
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 ASYIe3UpY08bvxPooYkRBX0AAAAAAAAAAAAAAAAAAAAAAAAAAAAA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SOFTWARE KEYSTORE&nbsp;&nbsp;&nbsp; LOCAL</PRE></DIV></DIV>
+<h3 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-DatabaseMigrationStepbyStepwithZDM>Database Migration Step by Step with ZDM</h3>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Step1:PreparetheSourceDatabaseHostOn-Premises>Step 1: Prepare the Source Database Host On-Premises</h4>
+<P><BR>Copy the SSH public key of the zdmuser from the ZDM host to the .ssh/authorized_keys file on the source database host for the user you want to use for login, in this case, <STRONG><EM>onpuser</EM></STRONG>:</P>
+<P>On the ZDM host as zdmuser:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$&nbsp;cat .ssh/id_rsa.pub</PRE></DIV></DIV>
+<P>On the source database host as user onpuser:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[onpuser@onphost ~]$ vi .ssh/authorized_keys</PRE></DIV></DIV>
+<P>Insert the public key and save the changes. Add the target database hostnames, IP addresses, and SCAN IP and name to the /etc/hosts file. As root user:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[root@onphost ~]# vi /etc/hosts</PRE></DIV></DIV>
+<P>Add the following entries:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">ta.db.og.1 exadbgoogle1.oraclevcn.com exadbgoogle1
+ta.db.og.2 exadbgoogle2.oraclevcn.com exadbgoogle2
+ta.db.og.3 demo-scan-sample.oraclevcn.com target-scan</PRE></DIV></DIV>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Step2:PreparetheSourceDatabaseOn-Premises>Step 2: Prepare the Source Database On-Premises</h4>
+<P>Prepare the source database. As SYS user:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">-- To protect against unlogged direct writes in the primary database that cannot be propagated to the standby database, turn on FORCE LOGGING at the primary database:
+SQL&gt; alter database force logging;
+SQL&gt; select force_logging from v$database;
+FORCE_LOGGING
+---------------------------------------
+YES
+-- Enable ARCHIVELOG mode for the database:
+SQL&gt; select log_mode from v$database;
+LOG_MODE
+------------
+ARCHIVELOG
+-- For Oracle Database 12c Release 2 and later, it is mandatory to configure TDE before migration begins
+SQL&gt; select wrl_type, status from v$encryption_wallet;
+WRL_TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUS
+-------------------- ------------------------------
+FILE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OPEN
+-- Set RMAN CONFIGURE CONTROLFILE AUTOBACKUP to ON
+RMAN&gt; CONFIGURE CONTROLFILE AUTOBACKUP ON;</PRE></DIV></DIV>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Step3:PreparethetargetdatabasehostonExaDB-DonOracleDatabase@GoogleCloud>Step 3: Prepare the target database host on ExaDB-D on Oracle Database@Google Cloud</h4>
+<P>Copy the SSH public key of the zdmuser from the ZDM host to the .ssh/authorized_keys file on the target database hosts for the user you want to use for login; in this case, OPC:</P>
+<P>On the ZDM host as zdmuser:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ cat .ssh/id_rsa.pub</PRE></DIV></DIV>
+<P>On the target database hosts as user opc (on all VMs of the VM cluster):</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[opc@ exadbgoogle1 ~]$ vi .ssh/authorized_keys</PRE></DIV></DIV>
+<P>Insert the public key and save the changes</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[opc@ exadbgoogle2 ~]$ vi .ssh/authorized_keys</PRE></DIV></DIV>
+<P>Insert the public key and save the changes</P>
+<P>Add the source database hostname and IP information into the /etc/hosts file. As root user (on all VMs of the VM cluster):</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[root@ exadbgoogle1 ~]# vi /etc/hosts</PRE></DIV></DIV>
+<P>Add the following entries</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">aa.bb.sr.db onphost
+
+
+[root@ exadbgoogle2 ~]# vi /etc/hosts</PRE></DIV></DIV>
+<P>Add the following entries</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">aa.bb.sr.db onphost</PRE></DIV></DIV>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Step4:PreparetheZDMServiceHostOn-Premises>Step 4: Prepare the ZDM Service Host On-Premises</h4>
+<P>Add the source and target hostnames and IP addresses into the /etc/hosts file. As root user:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[root@zdmhost ~]# vi /etc/hosts</PRE></DIV></DIV>
+<P>Add the following entries</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">ta.db.og.1 exadbgoogle1
+ta.db.og.2 exadbgoogle2
+aa.bb.sr.db onphost</PRE></DIV></DIV>
+<P>Test the SSH connectivity to the source and target database hosts:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ ssh -i /home/zdmuser/.ssh/id_rsa onpuser@onphost
+[zdmuser@zdmhost ~]$ ssh -i /home/zdmuser/.ssh/id_rsa opc@exadbgoogle1
+[zdmuser@zdmhost ~]$ ssh -i /home/zdmuser/.ssh/id_rsa opc@exadbgoogle2</PRE></DIV></DIV>
+<P>Verify that TTY is disabled for the SSH-privileged user. If TTY is disabled, the following command returns the date from the remote host without any errors:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ ssh -oStrictHostKeyChecking=no -i /home/zdmuser/.ssh/id_rsa onpuser@onphost "/usr/bin/sudo /bin/sh -c date"
+[zdmuser@zdmhost ~]$ ssh -oStrictHostKeyChecking=no -i /home/zdmuser/.ssh/id_rsa opc@ exadbgoogle1 "/usr/bin/sudo /bin/sh -c date"
+[zdmuser@zdmhost ~]$ ssh -oStrictHostKeyChecking=no -i /home/zdmuser/.ssh/id_rsa opc@ exadbgoogle2 "/usr/bin/sudo /bin/sh -c date"</PRE></DIV></DIV>
+<P>These commands should execute without any prompting and return the date from the remote host.&nbsp;</P>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Step5:SetSQL*Netconnectivitybetweensourceandtargetdatabasehosts>Step 5: Set SQL*Net connectivity between source and target database hosts</h4>
+<P>Check the SQL*Net network connectivity from source to target and vice versa:</P>
+<P>From the source host on-premises</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[oracle@onphost ~]$ tnsping exadbgoogle1:1521
+[oracle@onphost ~]$ tnsping exadbgoogle2:1521</PRE></DIV></DIV>
+<P>From target hosts on ExaDB-D on Oracle Database@Google Cloud</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[oracle@exadbgoogle1 ~]$ . oradb.env
+[oracle@exadbgoogle1 ~]$ tnsping onphost:1521
+[oracle@exadbgoogle2 ~]$ . oradb.env
+[oracle@exadbgoogle2 ~]$ tnsping onphost:1521</PRE></DIV></DIV>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Step6:CreatethePhysicalOnlineMigrationResponseFileontheZDMhost>Step 6: Create the Physical Online Migration Response File on the ZDM host</h4>
+<P>You’ll find a template on the ZDM host at&nbsp;$ZDMHOME/rhp/zdm/template/zdm_template.rsp, briefly describing the parameters and their possible values. Here, we will create a new response file with the minimal parameters required. As zdmuser:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ vi /home/zdmuser/physical_online/physical_online.rsp</PRE></DIV></DIV>
+<P>Add the following parameters and save the changes</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">MIGRATION_METHOD=ONLINE_PHYSICAL
+DATA_TRANSFER_MEDIUM=DIRECT
+ZDM_RMAN_DIRECT_METHOD=RESTORE_FROM_SERVICE
+ZDM_SRC_DB_RESTORE_SERVICE_NAME=oradb
+TGT_DB_UNIQUE_NAME=oradb_exa
+PLATFORM_TYPE=EXACS</PRE></DIV></DIV>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Step7:EvaluatetheConfiguration>Step 7: Evaluate the Configuration</h4>
+<P>Execute the following command on the ZDM host as zdmuser to evaluate the migration. ZDM will check the source and target database configurations. The actual migration will not be started. On the ZDM host as zdmuser:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">Enter source database oradb SYS password:
+Enter source database oradb TDE keystore password:
+zdmhost: 2024-08-22T17:53:30.001Z : Processing response file ...
+Operation "zdmcli migrate database" scheduled with the job ID "1".
+If the source database uses ASM for storage management, use -sourcedb &lt;db_unique_name&gt; instead of -sourcesid &lt;SID&gt; in the zdmcli command.</PRE></DIV></DIV>
+<P>Check the job status. On the ZDM host as zdmuser:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ $ZDMHOME/bin/zdmcli query job -jobid 1
+...
+Job ID: 1
+User: zdmuser
+Client: zdmhost
+Job Type: "EVAL"
+...
+Current status: SUCCEEDED
+Result file path: "/home/zdmuser/zdm/zdmbase/chkbase/scheduled/job-1-2024-08-22-17:54:18.log"
+Metrics file path: "/home/zdmuser/zdm/zdmbase/chkbase/scheduled/job-1-2024-08-22-17:54:18.json"
+...
+ZDM_GET_SRC_INFO ........... PRECHECK_PASSED
+ZDM_GET_TGT_INFO ........... PRECHECK_PASSED
+ZDM_PRECHECKS_SRC .......... PRECHECK_PASSED
+ZDM_PRECHECKS_TGT .......... PRECHECK_PASSED
+ZDM_SETUP_SRC .............. PRECHECK_PASSED
+ZDM_SETUP_TGT .............. PRECHECK_PASSED
+ZDM_PREUSERACTIONS ......... PRECHECK_PASSED
+ZDM_PREUSERACTIONS_TGT ..... PRECHECK_PASSED
+ZDM_VALIDATE_SRC ........... PRECHECK_PASSED
+ZDM_VALIDATE_TGT ........... PRECHECK_PASSED
+ZDM_POSTUSERACTIONS ........ PRECHECK_PASSED
+ZDM_POSTUSERACTIONS_TGT .... PRECHECK_PASSED
+ZDM_CLEANUP_SRC ............ PRECHECK_PASSED
+ZDM_CLEANUP_TGT ............ PRECHECK_PASSED</PRE></DIV></DIV>
+<P>Detailed information about the migration process can be found by monitoring the log file:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ tail -f /home/zdmuser/zdm/zdmbase/chkbase/scheduled/job-1-2024-08-22-17:54:18.log</PRE></DIV></DIV>
+<P>In case troubleshooting is required, please check the ZDM server log on the ZDM Service Host under the following location:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">$ZDM_BASE/crsdata/&lt;zdm_service_host&gt;/rhp/zdmserver.log.0</PRE></DIV></DIV>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Step8:InitiatetheMigration>Step 8: Initiate the Migration</h4>
+<P>To initiate the actual migration, execute the same command for evaluation, but this time without the -eval parameter.</P>
+<P>Oracle ZDM allows you to pause the migration process at any given phase. For example, the migration process can be paused before the role swap and switchover phase. Upon executing the zdm migrate database command, the -pauseafter flag must be entered with the desired pausing stage, which in this case is ZDM_CONFIGURE_DG_SRC.</P>
+<P>On the ZDM host as zdmuser:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ $ZDMHOME/bin/zdmcli migrate database \
+-rsp /home/zdmuser/physical_online/physical_online.rsp \
+-sourcesid oradb \
+-sourcenode onphost \
+-srcauth zdmauth \
+-srcarg1 user:onpuser \
+-srcarg2 identity_file:/home/zdmuser/.ssh/id_rsa \
+-srcarg3 sudo_location:/usr/bin/sudo \
+-targetnode exadbgoogle1 \
+-tgtauth zdmauth \
+-tgtarg1 user:opc \
+-tgtarg2 identity_file:/home/zdmuser/.ssh/id_rsa \
+-tgtarg3 sudo_location:/usr/bin/sudo \
+-targethome /u02/app/oracle/product/19.0.0.0/dbhome_1 \
+-tdekeystorepasswd \
+-pauseafter ZDM_CONFIGURE_DG_SRC
+
+
+Enter source database oradb SYS password:
+Enter source database oradb TDE keystore password:
+zdmhost: 2024-08-22T17:57:20.003Z : Processing response file ...
+Operation "zdmcli migrate database" is scheduled with job ID "2".</PRE></DIV></DIV>
+<P>Check the job status. On the ZDM host as zdmuser:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ $ZDMHOME/bin/zdmcli query job -jobid 2
+...
+Job ID: 2
+User: zdmuser
+Client: zdmhost
+Job Type: "MIGRATE"
+...
+Current status: PAUSED
+Result file path: "/home/zdmuser/zdm/zdmbase/chkbase/scheduled/job-2-2024-08-22-17:58:18.log"
+Metrics file path: "/home/zdmuser/zdm/zdmbase/chkbase/scheduled/job-2-2024-08-22-17:58:18.json"
+...
+ZDM_GET_SRC_INFO .............. COMPLETED
+ZDM_GET_TGT_INFO .............. COMPLETED
+ZDM_PRECHECKS_SRC ............. COMPLETED
+ZDM_PRECHECKS_TGT ............. COMPLETED
+ZDM_SETUP_SRC ................. COMPLETED
+ZDM_SETUP_TGT ................. COMPLETED
+ZDM_PREUSERACTIONS ............ COMPLETED
+ZDM_PREUSERACTIONS_TGT ........ COMPLETED
+ZDM_VALIDATE_SRC .............. COMPLETED
+ZDM_VALIDATE_TGT .............. COMPLETED
+ZDM_DISCOVER_SRC .............. COMPLETED
+ZDM_COPYFILES ................. COMPLETED
+ZDM_PREPARE_TGT ............... COMPLETED
+ZDM_SETUP_TDE_TGT ............. COMPLETED
+ZDM_RESTORE_TGT ............... COMPLETED
+ZDM_RECOVER_TGT ............... COMPLETED
+ZDM_FINALIZE_TGT .............. COMPLETED
+ZDM_CONFIGURE_DG_SRC .......... COMPLETED
+ZDM_SWITCHOVER_SRC ............ PENDING
+ZDM_SWITCHOVER_TGT ............ PENDING
+ZDM_POST_DATABASE_OPEN_TGT .... PENDING
+ZDM_DATAPATCH_TGT ............. PENDING
+ZDM_MANIFEST_TO_CLOUD ......... PENDING
+ZDM_POST_MIGRATE_TGT .......... PENDING
+ZDM_POSTUSERACTIONS ........... PENDING
+ZDM_POSTUSERACTIONS_TGT ....... PENDING
+ZDM_CLEANUP_SRC ............... PENDING
+ZDM_CLEANUP_TGT ............... PENDING</PRE></DIV></DIV>
+<P>Detailed information about the migration process can be found by monitoring the log file:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ tail -f /home/zdmuser/zdm/zdmbase/chkbase/scheduled/job-2-2024-08-22-17:58:18.log</PRE></DIV></DIV>
+<P>The current job is in PAUSED status now. Also, the progress stopped after phase ZDM_CONFIGURE_DG_SRC was COMPLETED. Check the database roles. The source is primary now, and the target is on standby:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[oracle@onphost ~]$ sqlplus / as sysdba
+SQL&gt; select database_role from v$database;
+DATABASE_ROLE
+----------------
+PRIMARY
+
+[oracle@exadbgoogle1 ~]$ sqlplus / as sysdba
+SQL&gt; select database_role from v$database;
+DATABASE_ROLE
+----------------
+PHYSICAL STANDBY</PRE></DIV></DIV>
+<P>At this stage, every change in the source database is immediately synchronized with the target database. Resume the job when your application is ready for migration.</P>
+<h4 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Step9:CompletetheMigration>Step 9: Complete the Migration</h4>
+<P>Resume the job from the previous step. On the ZDM host as zdmuser, resume the job and query the status until all phases are completed:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[zdmuser@zdmhost ~]$ $ZDMHOME/bin/zdmcli query job -jobid 2
+...
+ZDM_GET_SRC_INFO .............. COMPLETED
+ZDM_GET_TGT_INFO .............. COMPLETED
+ZDM_PRECHECKS_SRC ............. COMPLETED
+ZDM_PRECHECKS_TGT ............. COMPLETED
+ZDM_SETUP_SRC ................. COMPLETED
+ZDM_SETUP_TGT ................. COMPLETED
+ZDM_PREUSERACTIONS ............ COMPLETED
+ZDM_PREUSERACTIONS_TGT ........ COMPLETED
+ZDM_VALIDATE_SRC .............. COMPLETED
+ZDM_VALIDATE_TGT .............. COMPLETED
+ZDM_DISCOVER_SRC .............. COMPLETED
+ZDM_COPYFILES ................. COMPLETED
+ZDM_PREPARE_TGT ............... COMPLETED
+ZDM_SETUP_TDE_TGT ............. COMPLETED
+ZDM_RESTORE_TGT ............... COMPLETED
+ZDM_RECOVER_TGT ............... COMPLETED
+ZDM_FINALIZE_TGT .............. COMPLETED
+ZDM_CONFIGURE_DG_SRC .......... COMPLETED
+ZDM_SWITCHOVER_SRC ............ COMPLETED
+ZDM_SWITCHOVER_TGT ............ COMPLETED
+ZDM_POST_DATABASE_OPEN_TGT .... COMPLETED
+ZDM_DATAPATCH_TGT ............. COMPLETED
+ZDM_MANIFEST_TO_CLOUD ......... COMPLETED
+ZDM_POST_MIGRATE_TGT .......... COMPLETED
+ZDM_POSTUSERACTIONS ........... COMPLETED
+ZDM_POSTUSERACTIONS_TGT ....... COMPLETED
+ZDM_CLEANUP_SRC ............... COMPLETED
+ZDM_CLEANUP_TGT ............... COMPLETED</PRE></DIV></DIV>
+<P>Finally, check the target database role:</P>
+<DIV class="code panel pdl" style="BORDER-LEFT-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 1px">
+<DIV class="codeContent panelContent pdl"><PRE class=syntaxhighlighter-pre data-theme="Confluence" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence">[oracle@exadbgoogle1 ~]$ sqlplus / as sysdba
+SQL&gt; select database_role from v$database;
+DATABASE_ROLE
+----------------
+PRIMARY</PRE></DIV></DIV>
+<h3 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-KnownIssues>Known Issues</h3>
+<P>All common issues are documented and updated periodically in Oracle Zero Downtime Migration’s documentation, specifically on the product release note, Known Issues section: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</P>
+<P><A class=external-link href="https://docs.oracle.com/en/database/oracle/zero-downtime-migration/" rel=nofollow>https://docs.oracle.com/en/database/oracle/zero-downtime-migration/</a></P>
+
+
+<h3 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Troubleshooting&amp;OtherResources>Troubleshooting &amp; Other Resources</h3>
+<P>For Oracle ZDM log review:</P>
+<UL>
+<LI>ZDM Server Logs:
+<UL>
+<LI>Check - $ZDM_BASE/crsdata/&lt;zdm_service_node&gt;/rhp/rhpserver.log.0<BR><BR></LI></UL>
+<LI>Check source node logs
+<UL>
+<LI>- &lt;oracle_base&gt;/zdm/zdm_&lt;src_db_name&gt;_&lt;job_id&gt;/zdm/log<BR><BR></LI></UL>
+<LI>Check target node logs.
+<UL>
+<LI>- &lt;oracle_base&gt;/zdm/zdm_&lt;tgt_db_name&gt;_&lt;job_id&gt;/zdm/log</LI></UL></LI></UL>
+<P>For all Oracle Support Service Requests related to Zero Downtime Migration, please be sure to follow the instructions in My Oracle Support Document:</P>
+<UL>
+<LI>SRDC – Data Collection for Database Migration Using Zero Downtime Migration (ZDM) (DOC ID 2595205.1)
+<LI><A class=external-link href="https://support.oracle.com/epmos/faces/DocContentDisplay?id=2595205.1" rel=nofollow>https://support.oracle.com/epmos/faces/DocContentDisplay?id=2595205.1</a></LI></UL>
+<h3 id=OracleZeroDowntimeMigrationPhysicalOnlineMigrationtoExaDBDonOracleDatabase@GoogleCloud-Footnotes>Footnotes</h3>
+<P><a href="#_ftnref1" name=_ftn1 rel=nofollow><SPAN>[1]</SPAN></a> <A class=external-link href="https://oracle.com/goto/maa" rel=nofollow>https://oracle.com/goto/maa</a></P>
+<P><a href="#_ftnref2" name=_ftn2 rel=nofollow><SPAN>[2]</SPAN></a> <A class=external-link href="https://www.oracle.com/goto/zdm" rel=nofollow>https://www.oracle.com/goto/zdm</a><SPAN><BR></SPAN>&nbsp; <A class=external-link href="https://www.oracle.com/cloud/google/oracle-database-at-google-cloud/" rel=nofollow>https://www.oracle.com/cloud/google/oracle-database-at-google-cloud/</a> &nbsp;&nbsp;</P>
+<P><a href="#_ftnref3" name=_ftn3 rel=nofollow><SPAN>[3]</SPAN></a> <A class=external-link href="https://docs.oracle.com/en/database/oracle/zero-downtime-migration/index.html" name=_ftn4 rel=nofollow>https://docs.oracle.com/en/database/oracle/zero-downtime-migration/index.html</a></P>
+<P><a href="#_ftnref4" rel=nofollow><SPAN>[4]</SPAN></a> <A class=external-link href="https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/WALLET_ROOT.html" rel=nofollow>https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/WALLET_ROOT.html</a></P>
+<P><BR></P>
+</DIV>
+</div>
+</article>
+
+</body></html>

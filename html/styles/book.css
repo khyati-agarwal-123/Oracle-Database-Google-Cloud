@@ -1,0 +1,1584 @@
+/*CSS for Confluence to HTML rendering */
+/*Last updated by Jody Glover, Oct 17, 2020 - h3 top 10px, h2 bottom 30px
+/*Customized Book CSS */
+
+@-webkit-viewport   { width: device-width; }
+@-moz-viewport      { width: device-width; }
+@-ms-viewport       { width: device-width; }
+@-o-viewport        { width: device-width; }
+@viewport           { width: device-width; }
+@-moz-document url-prefix() {
+    fieldset { display: table-cell; }
+}
+
+@media print
+{
+    
+    article {
+        height: auto !important;
+		min-height: auto !important;
+    }
+}
+
+
+/* ---------------------------------------- Layout --------------------------------*/
+
+html.book {
+    position: relative;
+    min-height: 100%;
+    /*-ms-overflow-style: scrollbar;
+	overflow-y: scroll;*/
+}
+
+html.article body div.page {
+	max-width: 1600px;
+	margin: 0 auto;
+}
+
+html.book, html.book body, html.book .ohc-grid {
+     width: 100%;   
+}
+
+body {
+	position: relative;
+}
+
+
+
+
+/* --------------------------------------------------------------------------------------------
+                                   2 main media queries                         
+ -------------------------------------------------------------------------------------------*/
+
+@media only screen and (min-width: 1201px) {
+
+	 .ohc-grid {
+		display: table;
+		table-layout: fixed;
+		min-height: 100vh;
+		width: 100%;
+	}
+	
+	div.ohc-menu-controls {
+		display: table-cell;
+		vertical-align: top;
+		min-width: 49px;
+		width: 49px;
+		box-sizing: border-box;
+		background-color: #ffffff;
+		border-right-width: 2px;
+		border-right-color: #eceae5;
+		border-right-style: solid;
+	}
+	
+	.ohc-menu-controls nav {
+		position: -webkit-sticky;
+		position: -moz-sticky;
+		position: -ms-sticky;
+		position: -o-sticky;
+		position: sticky;
+		top: 0;
+		margin-bottom: 4px;
+		display: block;
+	}
+	
+	.ohc-menu-controls ul.nav {
+		display: flex;
+		flex-direction: column;
+		padding: 0px;
+		margin:0px;
+		align-items: center;
+		list-style: none;
+	}
+	
+
+	
+	.ohc-menu {
+		display: table-cell;
+		vertical-align: top;
+		min-width: 300px;
+		width: 25%;
+		box-sizing: border-box;
+		background-color: #ffffff;
+		border-right-width: 2px;
+		border-right-color: #eceae5;
+		border-right-style: solid;
+	}
+	
+	.ohc-menu #tab-toc {
+		position: -webkit-sticky;
+		position: -moz-sticky;
+		position: -ms-sticky;
+		position: -o-sticky;
+		position: sticky;
+		top: 0;
+		margin-bottom: 4px;
+		height:80vh;
+		overflow-y: auto;
+	}
+	
+	div.article-table-cell {
+		display: table-cell;
+		height: 100vh;
+		max-width: 75%;
+		box-sizing: border-box;
+		vertical-align: top;
+	}
+	
+	.article-flex-container {
+		display: flex;
+		flex-direction: row;
+		min-height: 100vh;
+		position: relative;
+	}
+	
+	article {
+		width: 80%;
+		order: 1;
+		height: initial;
+		min-height: 100vh;
+		padding-right: 20px;
+		padding-left: 20px;
+		padding-top: 20px;
+		padding-bottom: 500px;
+		min-width:500px;
+	}
+	
+	#rightnav {
+		width: 20%;
+		order: 2;
+		min-height: 100vh;
+		padding-top: 28px;
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-bottom: 20px;
+	}
+	
+	#on-this-page {
+		width: 100%;
+		height: 80vh;
+		margin-bottom: 4px;
+		position: -webkit-sticky;
+		position: -moz-sticky;
+		position: -ms-sticky;
+		position: -o-sticky;
+		position: sticky;
+		top: 20px;
+		overflow-y:auto;
+		}
+	#on-this-page li.active a {
+	  font-weight: bold;
+	  text-decoration: underline;
+	}
+	
+
+	#feedback {
+		display: flex;
+		flex-direction: row;
+		position: absolute;
+		top:-50px;
+		right:20px;
+	}
+
+}	
+
+
+
+@media only screen and (min-width:0px) and (max-width: 1200px) {
+	.ohc-grid {
+        display: block;
+        position: relative;
+        min-height: 100vh;
+		width:100%;
+    }
+	div.ohc-menu-controls {
+		display: block;
+		vertical-align: top;
+		width: 100%;
+		box-sizing: border-box;
+		background-color: #ffffff;
+		border-bottom-width: 2px;
+		border-bottom-color: #eceae5;
+		border-bottom-style: solid;
+		padding-left: 5px;
+	}
+	
+	div.ohc-menu-controls nav {
+		position: relative !important;
+		display: block;
+		}
+		
+	.ohc-menu-controls ul.nav {
+		display: flex;
+		flex-direction: row;
+		padding: 0px;
+		margin-left: 0;
+		align-items: left;
+		list-style: none;
+	}
+	
+	div.ohc-menu-controls li {
+		margin-right: 30px;
+	}
+	
+	div.ohc-menu {
+		display: block;
+		max-width: 100%;
+		box-sizing: border-box;
+		border-bottom-width: 2px;
+		border-bottom-color: #eceae5;
+		border-bottom-style: solid;
+	}
+	
+	
+	
+	div.article-table-cell {
+		display: block;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+	
+	div.article-flex-container {
+		display: flex;
+		flex-direction: column;
+		align-items: left;
+		width:100%;
+	}
+	
+	article {
+		width: 100%;
+		order: 2;
+		height: initial;
+		min-height: 100vh;
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 30px;
+		padding-bottom: 140px;
+	}
+	
+	#rightnav {
+		width: 100%;
+		order: 1;
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 30px;
+		padding-bottom: 0px;
+	}	
+	
+	#on-this-page {
+		width: 100%;
+		position: relative;
+		}
+		
+	#on-this-page li.active a {
+	  font-weight: normal;
+	  text-decoration: none;
+	}
+	
+	div.ohc-menu-controls {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	
+	.ohc-menu-control-item {
+		display: inline-block;
+	}
+	
+	#feedback {
+		display: flex;
+		flex-direction: column;
+		align-items:center;
+		width:100%;
+		position: absolute;
+		top: -86px;
+		right:initial;
+    }
+}
+
+
+/*----------------------------------------------------------------------------*/
+/* Oracle Sans Formats */
+/*----------------------------------------------------------------------------*/
+
+
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 100;
+    src: url("fonts/OracleSans_W_ULt.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_ULt.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 200;
+    src: url("fonts/OracleSans_W_ULt.woff2") format("woff2");
+    src: url("fonts/OracleSans_Web/WOFF/OracleSans_W_ULt.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 300;
+    src: url("fonts/OracleSans_W_Lt.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_Lt.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 400;
+    src: url("fonts/OracleSans_W_Rg.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_Rg.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 500;
+    src: url("fonts/OracleSans_W_SBd.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_SBd.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 600;
+    src: url("fonts/OracleSans_W_Bd.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_Bd.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 700;
+    src: url("fonts/OracleSans_W_Bd.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_Bd.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 800;
+    src: url("fonts/OracleSans_W_XBd.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_XBd.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 900;
+    src: url("fonts/OracleSans_W_XBd.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_XBd.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 100;
+    font-style: italic;
+    src: url("fonts/OracleSans_W_ULtIt.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_ULtIt.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 200;
+    font-style: italic;
+    src: url("fonts/OracleSans_W_ULtIt.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_ULtIt.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 300;
+    font-style: italic;
+    src: url("fonts/OracleSans_W_LtIt.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_LtIt.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 400;
+    font-style: italic;
+    src: url("fonts/OracleSans_W_It.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_It.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 500;
+    font-style: italic;
+    src: url("fonts/OracleSans_W_SBdIt.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_SBdIt.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 600;
+    font-style: italic;
+    src: url("fonts/OracleSans_W_BdIt.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_BdIt.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 700;
+    font-style: italic;
+    src: url("fonts/OracleSans_W_BdIt.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_BdIt.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 800;
+    font-style: italic;
+    src: url("fonts/OracleSans_W_XBdIt.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_XBdIt.woff") format("woff");
+}
+@font-face {
+    font-display: fallback;
+    font-family: 'Oracle Sans';
+    font-weight: 900;
+    font-style: italic;
+    src: url("fonts/OracleSans_W_XBdIt.woff2") format("woff2");
+    src: url("fonts/OracleSans_W_XBdIt.woff") format("woff");
+}
+
+
+/*------------------------------- common formats ------------------------------------------ */
+html, body, .ocom-base * {
+  font-family: 'Oracle Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+body {
+    background-color: #f1f0eb;
+}
+
+body > div.page > main {
+    background-color: #fcfbfa;
+}
+
+
+
+/* Header */
+/* note - the header is slightly different for articles than books */
+
+html.article header div:first-child, html.book header div:first-child, html.lab header div:first-child, html header div:first-child {	
+  background-color: #67605B;/* granite */
+  /*background-color: #2C5967; ocean*/
+  /*background-image: url(images/Abstracts-Green-4.png);
+	background-repeat: no-repeat;
+	background-size: cover;*/
+
+}
+
+html.book > body > div.page > header div:first-child {
+	padding-top: 9px;
+	padding-bottom: 20px;
+	padding-left:34px;
+	padding-right: 34px;
+	max-width: 100%;
+}
+
+html.article > body > div.page > header div:first-child {
+	padding-left: 3vw;
+	padding-right: 3vw;
+	padding-top: 9px;
+	padding-bottom: 20px;
+	max-width: 100%;
+}
+body > div.page > header > div:first-child > h1 {
+	font-size: 38.5px;
+	font-weight: 800;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 1.25;
+	letter-spacing: normal;
+	color: #ffffff;
+}
+
+/* always left aligning the header for both article and book
+
+html.article header div:first-child > h1 {
+	text-align: center;
+}
+
+html.book header div:first-child > h1 {
+	text-align: left;
+}*/
+html > div.page > header div:first-child > h1 {
+	text-align: left;
+}
+
+
+/* breadcrumb  */
+
+body > div.page > header > div:first-child > ol.breadcrumb {
+    margin: 0 !important;
+    padding-left:0px;
+	padding-right: 0px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	border-radius:0;
+	background-color: transparent;
+	list-style: none;
+}
+
+body > div.page > header > div:first-child >  ol.breadcrumb > li {
+    display: inline-block;
+}
+
+body > div.page > header > div:first-child > ol.breadcrumb > li > a {
+    color: #ffffff;
+	font-size: 14px;
+}
+body > div.page > header > div:first-child > ol.breadcrumb > li a:hover {
+   text-decoration: underline;
+}
+
+body > div.page > header > div:first-child > ol.breadcrumb > li+li:before {
+    padding-left: 6px;
+    color: #ffffff;
+    content: "/\00a0";
+	font-size: 16px;
+}
+/* hiding temporarily to show the breadcrumb for a single article 
+html.article > body > header > div:first-child > ol.breadcrumb {
+	display: none;
+}*/
+
+
+
+
+
+
+
+/* ohc menu controls */
+
+main div.ohc-grid div.ohc-menu div#tab-toc,
+main div.ohc-grid div.ohc-menu div#tab-search,
+main div.ohc-grid div.ohc-menu div#tab-download {
+	padding-left: 13px;
+	padding-right: 13px;
+	padding-top: 14px;
+	padding-bottom: 14px;
+}
+.ohc-navpill {
+    clip: auto;
+}
+main div.ohc-grid div.ohc-menu-controls,
+main div.ohc-grid div.ohc-menu {
+	background-color: #ffffff;
+	/*background-color:#FCFBFA; cool grey */
+}
+main div.ohc-grid div.ohc-menu {
+	border-right-width: 2px;
+	border-right-color: #eceae5;
+}
+
+.nav-pills > li > a > span {
+	color: #1a1816;
+}
+
+.nav-pills > li > a {
+    border-radius: 0px;
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    color: #fff;
+    background-color: #337ab7;
+}
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:focus {
+	background-color: transparent;
+}
+.nav-pills > li > a:hover,
+.nav-pills > li.active > a:hover {
+    background-color: #fafafa;
+}
+.nav-pills > li.active > a > span,
+.nav-pills > li.active > a:focus > span {
+	color: #6a9d67 !important;
+}
+
+div.ohc-menu-controls li {
+	border-bottom-style: none;
+	border-bottom-width: 0px;
+}
+
+div.ohc-menu-controls a.opener {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+div.ohc-grid div.ohc-menu-controls a.opener .fa {
+	font-size: 16px;
+	line-height: 2.63;
+}
+
+
+/*OHC menu */
+/*-------------------*/
+
+/*custom where pages that have children are considered folders */
+/*
+#tab-toc header h2 {
+	float: left;
+	font-size: 16px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 1.25;
+	letter-spacing: normal;
+	text-align: left;
+	color: #57504a;
+	margin-top: 0px;
+}
+
+#tab-toc > header .controls {
+  float: right;
+}
+#tab-toc > header .controls a {
+	color: #1a1816;
+	text-decoration: none;
+}
+
+ #tab-toc > header .fa {
+  margin-left: 4px;
+  cursor: pointer;
+  font-size: 1.32em;
+}
+#tab-toc > header .fa:hover {
+  color: black;
+}
+
+#tab-toc div.tree-expander {
+	position: relative;
+	display: block;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	cursor: pointer;
+}
+
+#tab-toc span.tree-expander-indicator {
+	position: absolute;
+	display: inline-block;
+	top: 5px;
+	left:-20px;
+}
+
+#tab-toc div.toggle.expanded span.tree-expander-indicator:before {
+	content: "\f068\00A0\00A0\00A0\00A0";
+	font: normal normal normal 14px/1 FontAwesome;
+}
+#tab-toc div.toggle.collapsed span.tree-expander-indicator:before {
+	content: "\f067\00A0\00A0\00A0\00A0";
+	font: normal normal normal 14px/1 FontAwesome;
+}
+
+#tab-toc li, #tab-toc li.hasChildren {
+	padding-bottom: 6px;
+	padding-top: 6px;
+	padding-left: 2px;
+	padding-right: 2px;
+	list-style-type: none; 
+	outline: none; 
+}
+
+#tab-toc ul {
+	padding-left:20px;
+}
+
+#tab-toc a, div.tree-expander {
+	color: #000000;
+	font-weight: bold;
+}
+
+#tab-toc ul li * {
+	font-size: 14px;
+}
+
+#tab-toc span.active a {
+	color: #467146;
+	text-decoration: underline;
+}
+
+*/
+
+
+/*original*/
+
+#tab-toc a {
+  color: #226AA8;
+}
+#tab-toc .toggle {
+    color: #555;
+}
+#tab-toc a.expander {
+  color: #666;
+}
+#tab-toc header h2 {
+  float: left;
+  color: #555;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+
+#tab-toc > header .controls {
+  float: right;
+}
+#tab-toc > header .controls a {
+  text-decoration: none;
+	color: #666;
+}
+#tab-toc > header .fa {
+  margin-left: 4px;
+  cursor: pointer;
+  font-size: 1.32em;
+}
+#tab-toc > header .fa:hover {
+  color: black;
+}
+#tab-search .radio input[type=radio]{
+	margin-left:0;
+}
+.activedescendant:focus{border:2px dotted #337AB7;}
+.tree a:focus {background-color:#fffl;} 
+.treeview ul {}
+.treeview li {list-style-type: none; outline: none; border:2px solid #fafafa;}
+.treeview li ul {padding-left: 20px;}
+.treeview  .visually-hidden {position: absolute; left: -999em;}
+.treeview .tree {
+    padding-left: 18px;
+    margin-left: 0px;
+}
+.treeview  .hasChildren {position: relative;}
+.treeview  .tocitem {padding: 2px 5px 2px 3px; width: 100%; display: block;word-wrap: break-word;}
+.treeview  .tree li .hasChildren span {background-image: none; }
+.treeview  .tree li .noChildren span {}
+.treeview  .toggle {background-position: left top; background-repeat: no-repeat; cursor: pointer; height: 14px; width: 14px; position: absolute; left: -18px; top: 10px;}
+
+html[dir=rtl] .treeview .toggle {
+    background-position: left top;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    height: 14px;
+    width: 14px;
+    position: inherit;
+    left: 21px;
+    top: 5px;
+}
+.treeview .tree .expanded, .treeview  .tree .collapsed  {
+    transform: rotate(0.001deg) !important;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+}
+.treeview .tree .expanded:before {
+    content: "\f056";
+}
+.treeview  .tree .collapsed:before {
+    content: "\f055";
+}
+.treeview .tree .expanded.hover:before, .treeview  .tree .collapsed.hover:before  {
+    color: lightgray;
+}
+/*--then further down near the end of the page there is more css that overwrites the code above--*/
+
+
+
+main div.ohc-grid div.ohc-menu div#tab-toc > header .controls a {
+	color: #1a1816;
+}
+main div.ohc-grid div.ohc-menu div.treeview li,
+main div.ohc-grid div.ohc-menu div.treeview li div ~ span {
+	border: inherit;
+	padding-bottom: 6px;
+}
+main div.ohc-grid div.ohc-menu div#tab-toc li[role="treeitem"] span * {
+	font-size: 14px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 1.14;
+	letter-spacing: normal;
+	text-align: left;
+	color: #000000;
+}
+main div.ohc-grid div.ohc-menu div#tab-toc li[role="treeitem"] div.toggle {
+	color: #1a1816;
+	font-size: 12px;
+	line-height: 1.25;
+}
+ul.treeroot span.active {
+	border-right: none;
+	background-color: transparent;
+}
+main div.ohc-grid div.ohc-menu div.treeview li span a:hover,
+main div.ohc-grid div.ohc-menu div.treeview li span a:focus {
+	text-decoration: underline;
+}
+main div.ohc-grid div.ohc-menu div.treeview .tree .expanded:before {
+	content: "\f068";
+}
+main div.ohc-grid div.ohc-menu div.treeview .tree .collapsed:before {
+	content: "\f067";
+}
+main div.ohc-grid div.ohc-menu div.treeview .tocitem {
+	width: auto;
+	display: inline-block;
+}
+main div.ohc-grid div.ohc-menu div.treeview .tocitem.active {
+	padding-bottom: 3px;
+}
+main div.ohc-grid div.ohc-menu div.treeview span.tocitem.active a,
+main div.ohc-grid div.ohc-menu div.treeview span.tocitem.active a span {
+	color: #467146 !important;
+}
+main div.ohc-grid div.ohc-menu div.treeview .tocitem.active a:hover,
+main div.ohc-grid div.ohc-menu div.treeview .tocitem.active a:focus{
+	text-decoration: underline;
+}
+main div.ohc-grid div.ohc-menu div#tab-toc li[role="treeitem"] a:hover,
+main div.ohc-grid div.ohc-menu div#tab-toc li[role="treeitem"] a:focus{
+	text-decoration: underline;
+}
+main div.ohc-grid div.ohc-menu div#tab-toc li[role="treeitem"] span.active a {
+	text-decoration: underline;
+}
+main div.ohc-grid div.ohc-menu div#tab-toc li[role="treeitem"] span.active a:focus {
+	outline-offset: 0px;
+	outline-width: 0px;
+	outline-style: none;
+}
+main div.ohc-grid div.ohc-menu div#tab-toc li[role="treeitem"] span a:focus {
+	outline-offset: 1px;
+	outline-width: 2px !important;
+	outline-style: dotted !important;
+	text-decoration: none;
+}
+main div.ohc-grid div.ohc-menu div#tab-toc li[role="treeitem"] span.active a:hover {
+	text-decoration: underline;
+	font-weight: 600;
+}
+/*end original*/
+
+
+
+
+
+/* #tab-search and #tab-download */
+
+div#tab-search h2 {
+	margin-top: 0px;
+}
+
+main div.ohc-grid div.ohc-menu div#tab-search .btn.btn-primary,
+main div.ohc-grid div.ohc-menu div#tab-download .btn.btn-primary {
+	background-color: #6a9d67;
+	border-color: #6a9d67;
+}
+main div.ohc-grid div.ohc-menu div#tab-search .btn.btn-primary:hover,
+main div.ohc-grid div.ohc-menu div#tab-download .btn.btn-primary:hover {
+	background-color: #588757;
+	border-color: #588757;
+}
+main div.ohc-grid div.ohc-menu div#tab-search .btn.btn-primary:active,
+main div.ohc-grid div.ohc-menu div#tab-download .btn.btn-primary:active {
+	background-color: #467146;
+	border-color: #467146;
+	box-shadow: none;
+}
+main div.ohc-grid div.ohc-menu div#tab-search .btn.btn-primary:focus,
+main div.ohc-grid div.ohc-menu div#tab-download .btn.btn-primary:focus {
+	border: 2px solid white;
+	background: #6a9d67;
+	outline: solid #6a9d67 2px;
+	outline-offset: 0;
+	padding: 4px 10px;
+}
+
+main div.ohc-grid div.ohc-menu div#tab-search h2,
+main div.ohc-grid div.ohc-menu div#tab-download h2,
+main div.ohc-grid div.ohc-menu div#tab-download p {
+	color: #57504a;
+	font-size: 16px;
+	font-weight: bold;
+}
+main div.ohc-grid div.ohc-menu div#tab-search div.radio {
+	color: #57504a;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+#tab-search .radio input[type=radio]{
+	margin-left:0;
+}
+.hide-group {
+    display: none;
+    
+}
+.show-group {
+    display: block;
+    
+}
+
+
+
+
+/* ---------------------------------------- article --------------------------- */
+
+.article-table-cell {
+  background-color: #fcfbfa;
+}
+
+article p, article td, article code, article span, article ol, article li, article pre, article codeph {
+	font-size: 16px;
+	color: #1a1816;
+	line-height: 1.44em;
+}
+
+article header ol.breadcrumb, article > header > h1, article > h1 {
+	display:none;
+}
+
+h2, article h2 * {
+    font-size: 33px;
+	font-weight: 400;
+	line-height: 1.21;
+	text-align: left;
+	color: #1a1816;
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+
+h3, article h3 * {
+    font-size: 24px;
+	font-weight: 400;
+	margin-top: 60px !important;
+	margin-bottom: 30px;
+	text-align: left;
+	color: #1a1816;
+	margin-top: 40px;
+}
+
+h4, article h4 * {
+	font-size: 20px;
+    font-weight: 500;
+	margin-top: 36px !important;
+	margin-bottom: 20px;
+	text-align: left;
+	color: #1a1816;
+}
+
+h5, article h5 * {
+	font-size: 18px;
+    font-weight: 500;
+	margin-top: 30px;
+	margin-bottom: 20px;
+	text-align: left;
+	color: #1a1816;
+}
+
+h6, article h6 *{
+	font-size: 16px;
+    font-weight: 500;
+	margin-top: 30px;
+	margin-bottom: 10px;
+	text-align: left;
+	color: #1a1816;
+}
+
+h7, article h7 *{
+	font-size: 16px;
+	text-decoration: underline;
+    font-weight: 400;
+	margin-top: 30px;
+	margin-bottom: 10px;
+	text-align: left;
+	color: #1a1816;
+}
+
+main div.ohc-grid article hr {
+	border-top: 2px solid #dedad6;
+}
+main div.ohc-grid article div.notices {
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 1.44;
+	letter-spacing: normal;
+	text-align: left;
+	color: #1a1816;
+}
+
+
+/*tables*/
+
+article table *, .confluenceTable * {
+	font-size: 14px;
+	line-height: 16px;
+	text-align: left;
+	color: #1a1816;
+}
+
+article table, article th, article tr, article td, .confluenceTable, .confluenceTh, .confluenceTr, .confluenceTd {
+	border: solid 2px #eceae5;
+}
+
+table, .confluencTable {
+	margin-bottom: 20px; 
+}
+
+article table > thead > tr > th,
+div.ind table > thead > tr > th,
+.confluenceTh
+ {
+	font-weight: bold;
+	background: #f8f7f4;
+	padding: 10px;
+	word-wrap: break-word;
+}
+
+table tr, .confluenceTr {
+    vertical-align: top;
+    padding: 8px 6px 8px 6px;
+    
+}
+
+article table td, .confluenceTd {
+    padding: 10px;
+    word-wrap: break-word;
+	font-weight: normal;
+	background: #ffffff;
+}
+/* this removes a bootstrap format */
+article .table-responsive {
+	border: none;
+}
+
+
+article table caption {
+	font-style: italic;
+	font-size: 12px;
+}
+
+
+
+
+
+
+
+/*list items ul & ol */
+
+/* numbered lists */
+article ol ol li {
+   list-style-type: lower-alpha;
+}
+
+article ol ol ol li {
+  list-style-type: lower-roman;
+}
+
+article ol ol ol ol li {
+  list-style-type: decimal;
+}
+article ol ol ol ol li:before {
+   content: ") ";
+   margin-left:-3px;
+ }
+
+article ol ol ol ol ol li {
+  list-style-type: lower-alpha;
+}
+
+article ol ol ol ol ol ol li {
+  list-style-type: lower-roman;
+}
+
+
+/* bulleted lists */
+
+article ul ul li {
+   list-style-type: circle;
+}
+
+article ul ul ul li {
+   list-style-type: square;
+}
+
+article ul ul ul ul li {
+   list-style-type: disc;
+}
+
+article ul ul ul ul ul li {
+   list-style-type: circle;
+}
+
+/* mixtures of ol and li */
+article ol li ul li {
+  list-style-type: disc;
+}
+
+article ol ol li ul li {
+	   list-style-type: circle;
+}
+
+article ol ol ol li ul li {
+	  list-style-type: disc;
+}
+
+
+
+/* links */
+ article a {
+	 /*color: #3c6974; this is the default template OHC */
+	 font-size: 16px;
+	 color: #2C5967;
+	 text-decoration: none;
+ }
+ 
+ article a:hover, article p > a.external-link:hover{
+	 color: #2C5967;
+	 text-decoration: underline;
+ }
+ 
+ /*images*/
+img, img.confluence-embedded-image {
+  max-width: 100%;
+  height: auto;
+  width: auto\9; /* ie8 */
+}
+
+/*copyright information button */
+#copyright-information-btn:before, #oracle-accessibility-btn:before {
+	margin-right: 6px;
+    content: "\f056";
+    transform: rotate(0.001deg) !important;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+}
+#copyright-information-btn.collapsed:before, #oracle-accessibility-btn.collapsed:before {
+	content: "\f055";
+}
+
+#betacopyright * {
+	color: #D1350F;
+}
+
+/* note, caution, info */
+
+article .confluence-information-macro {
+   page-break-inside: avoid;
+   background-color: transparent !important;
+   border-left: 8px solid #7dd1d3 !important;
+   color: #1a1816;
+   background-repeat: no-repeat;
+   background-position-x: 35px;
+   background-position-y: center;
+   margin-bottom: 30px;
+   margin-top: 30px;
+}
+article .confluence-information-macro-note {
+   background-image: url(images/icon-note.svg);
+}
+
+article .confluence-information-macro-warning {
+   background-image: url(images/icon-warning.svg);
+   background-position-x: 28px;
+   background-size: 30px 30px;
+}
+
+article .confluence-information-macro-information {
+   background-image: url(images/icon-tip.svg);
+}
+
+article .confluence-information-macro-body, p.title {
+	margin-left: 91px;
+}
+
+article .confluence-information-macro p.title {
+	font-weight: bold;
+}
+
+
+
+ /* -----------------------------On this page------------------*/
+
+ 
+ #on-this-page h2 {
+	font-size: 16px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 1.25;
+	letter-spacing: normal;
+	text-align: left;
+	color: #57504a;
+	}
+
+#on-this-page ul{
+	padding: 0px 0px 20px 0px;
+	list-style: none;
+	/*border-left: solid 1px rgba(196,206,215,0.5);*/
+	}
+
+#on-this-page ul li {
+	margin-bottom: 10px;
+	padding-right: 5px;
+	/*border-left: 2px solid transparent;*/
+	}
+
+#on-this-page ul li a {
+	display: flex; 
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 1.25;
+	letter-spacing: normal;
+	text-align: left;
+	text-decoration: none;
+/*	color: #bb501c;*/
+/*	color: #3c6974;*/
+	color: #2C5967;
+	padding-left: 5px;
+		}
+		
+#on-this-page ul li a:hover {
+	text-decoration: underline;
+}
+		
+
+#on-this-page li.active {
+	/*	border-left: 2px solid #bb501c;*/
+	/*	border-left: 2px solid #3c6974;*/
+		}
+		
+		
+		
+		
+/* ------------------------- pre & code --------------------*/
+
+blockquote {
+  font-size: inherit;
+}
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+
+/* pre and code  - before 
+
+code.codeph, code {
+	font-size: 16px;
+	font-family: "Courier New", Courier, monospace;
+	color: #1a1816;
+	background: transparent;
+	background-color: transparent;
+}*/
+
+/*preformatted text in Confluence - before 
+article pre.codeblock, article pre {
+	position: relative;
+	margin-top: 8px;
+	padding: 20px 20px 20px 20px;
+	background-color: white;
+	border-radius: 6px;
+	border: solid 2px #eceae5;
+	background-color: #ffffff;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+	font-family: "Courier New", Courier, monospace;
+	color: #1a1816;
+	font-size: 16px;
+	word-break: break-word;
+}
+*/
+
+/*copy button  - old 
+.copy-btn {
+  right: 0px;
+  top:0px;
+  height: 24px;
+  width: 60px;
+  position: absolute;
+  border: none;
+  border-radius: 4px;
+  font-family: "Oracle Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: center;
+  color: #759C6C;
+  background-position-x: 6px;
+  background-position-y: 5px;
+}
+
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) { 
+  .copy-btn { 
+   background-color: white;
+   color: Gray;
+  }
+}
+#content-row div.col-md-8.col-xl-9 article .copy-btn {
+	margin-right: 15px
+}
+
+
+pre.schema-source {
+  padding-left: 19px !important;
+  padding-top: 51px !important;
+}
+li .source-btn-container {
+  content: "";
+  position: absolute;
+  background-color: #f5f4f2;
+  width: 100%;
+  height: 32px;
+  margin-top: -31px;
+  margin-left: -21px;
+  border-radius: 4px;
+  border-bottom: solid 2px #dedad6;
+}
+li .source-btn-container:after {
+  content: "";
+  position: absolute;
+  background-color: #f5f4f2;
+  width: 20%;
+  height: 32px;
+  right: 0px;
+  margin-right: -13px;
+  border-radius: 4px;
+  border-bottom: solid 2px #dedad6;
+}
+pre .source-btn-container {
+  content: "";
+  position: absolute;
+  background-color: #f5f4f2;
+  width: 100%;
+  height: 32px;
+  margin-top: -51px;
+  margin-left: -19px;
+  border-radius: 4px;
+  border-bottom: solid 2px #dedad6;
+}
+pre .source-btn-container:after {
+  content: "";
+  position: absolute;
+  background-color: #f5f4f2;
+  width: 20%;
+  height: 32px;
+  right: 0px;
+  margin-right: -13px;
+  border-radius: 4px;
+  border-bottom: solid 2px #dedad6;
+}
+pre.schema-source .copy-btn {
+  right: 23px;
+}
+.pre-space {
+  width: 130px;
+  display: inline-block;
+}
+
+.copied-btn {
+  box-shadow:initial;
+  background-color: #4c825c;
+  outline: none;
+}
+
+.copy-btn-enabled {
+ background-color: white;
+ 
+}
+.copy-btn-enabled:hover {
+ background-color: #4c825c;
+ color: white !important;
+}
+.copied-btn:focus { 
+  outline: dotted 2px #161513;
+  outline-offset: 1px;
+}
+
+.copy-btn.copy-btn-enabled:focus {
+  background-color: #4c825c;
+  border-radius: 4px;
+  outline: dotted 2px #161513;
+  outline-offset: 1px;
+  color: white;
+}
+.copy-btn:active {
+  border-radius: 4px;
+  background-color: #4c825c; !important;
+  
+}
+.copy-btn-text {
+  position: absolute;
+  top: 2px;
+  right: 16px;
+  font-size: 12px;
+  
+}
+
+
+.copied-btn-text {
+  position: absolute;
+  top: 3px;
+  right: 11px;
+  font-size: 12px;
+  color: white;
+}
+
+.copy-btn-color-change {
+  background-color: #4c825c;
+  -webkit-transition: background-color 1000ms linear;
+  -ms-transition: background-color 1000ms linear;
+  transition: background-color 1000ms linear;
+}
+.copy-btn-color-change:focus { 
+  outline: dotted 2px #161513;
+  outline-offset: 1px;
+}
+.infoboxnote pre .copy-btn {
+  right: 88px;
+}
+div.schema-container pre.schema-source + div pre .copy-btn {
+  right: 5px;
+  margin-top: 0px;
+}
+*/
+
+/* ------------------------------------- copy  button Jody - new format ----------------------------------*/
+
+ .bd-clipboard {
+ position: relative;
+ margin-top: 20px;
+ }
+ 
+
+.bd-clipboard + .highlight {
+	margin-top:0px;
+	}
+	
+.bd-clipboard .highlight {
+	margin-right:0;
+	margin-left: 0;
+}
+ .copy-btn {
+	position:absolute;
+	right:5px;
+	top: 5px;
+	z-index: 10;
+	background-image: url(images/copy-btn-icon-green.svg);
+	background-repeat: no-repeat;
+	background-size: 20px 20px;
+	width: 20px;
+	height: 20px;
+	background-color: transparent;
+	border: none;
+ }
+ 
+  pre {
+	font-size: 16px;
+	padding:0px 20px 20px 20px !important;
+	margin:0;
+	white-space: pre-wrap;
+	word-break: normal;
+	word-wrap: normal;
+	overflow: auto;
+	border: none !important;
+	max-width: 1000px;
+ }
+ 
+ pre code, .hljs {
+	padding:0px !important;
+	margin:0;
+	font-family: monospace;
+	display: inline-block;
+	white-space: pre-wrap;
+ }
+ 
+ 
+ 
+
+.highlight {
+	padding:0px;
+	border: 2px solid #dedad6;
+	background-color: #ffffff;
+	border-radius:6px;
+}
+
+.hljs {
+	background: #ffffff;
+	}
+
+
+
+
+
+
+
+/* ----------------------------------- feedback -------------------------- */
+
+
+
+#feedbackquestion {
+	padding:6px 20px 6px 20px;
+}
+#feedbackbtns {
+	text-align: center;
+}
+#q15751 {
+    font-size: 16px;
+    color: #1a1816;
+    font-size: 16px;
+    line-height: 1.31;
+}
+.optBtn {
+    height: 35px;
+    width: 35px;
+    background-color: #70665e;
+    border: none;
+    color: white;
+    border-radius: 50%;
+    fill: #f7f7f7;
+ 
+}
+.optBtn:hover {
+    background-color: #88786d;
+}
+.optBtn:focus, .optBtn:active {
+    background-color: #fcfbfa;
+    border: 2px solid #70665e;
+    fill: #70665e;
+}
+.optBtn:focus {
+    margin-top: 0px;
+    padding: 7px;
+}
+
+.optBtnLike {
+	padding-left: 10px;
+	padding-bottom: 3px;
+}
+.optBtnDislike {
+    margin-left: 10px;
+	padding-left: 4px;
+}
+@-moz-document url-prefix() {
+    #q15751 {
+        top: -2px;
+    }
+}
+
+

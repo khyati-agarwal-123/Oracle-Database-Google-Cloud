@@ -1,0 +1,405 @@
+ 
+ 
+/* BODY */
+/* overall font and color */
+
+HTML,BODY * {
+  font-family: 'Oracle Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #1a1816;
+} 
+
+BODY {
+	margin-left: 50px;
+}
+
+/*cover*/  
+ 
+ @page {
+	 size: 8.5in 11in;  /* width height */
+	 margin-top: 15mm;
+	 margin-right: 10mm;
+	 margin-bottom: 20mm;
+	 margin-left: 10mm;
+ }
+   
+   #ladate{
+	    width: 350px;
+		height: 40px;
+	    background-color: grey;   
+	   text-align: center;
+	   position: absolute;
+	   right: 0px;
+	   top: 0px;
+   }
+   
+   #ladate p {
+	   font-size: 16px;
+	   margin: 0px;
+	   padding-top:10px;
+	   padding-bottom: 10px;  
+	   color: white;
+   }
+   
+   #topbox {
+	   position: absolute;
+	   top: 200px;
+	   left:0px;
+	   width: 650px;
+   }
+   
+   #productname {
+		position: relative;
+   }
+	   
+
+   #productname p {
+	   font-size: 46px;
+	   margin:0px;
+	   padding:0px;
+   }
+   
+   #booktitle {
+	   position: relative;
+   }
+   
+   #booktitle p {
+	   font-size: 36px;
+	   margin: 0px;
+	   padding:0px;
+	   color: #D1350F;
+   }
+   
+   #leftbox {
+	   position: absolute;
+	   top: 650px;
+	   left: 0px;
+	   width:100%;
+   }
+   
+ 
+   
+   #oracleconfidential p {
+	   margin: 0px;
+	    font-size: 16px;
+	   font-weight: 700;
+	   color: rgb(105,97,90);
+   }
+   
+ 
+   #authorizedparties p {
+	   font-size: 16px;
+	   margin-top: 0px;
+	   margin-bottom: 20px;
+   }
+   
+  #cog {
+	   position: relative;
+	   float:left;
+   }
+   
+   
+   #articlerecord {
+	   float:left;
+	   margin-left: 10px;
+	   margin-top: 10px;
+   }
+   
+   #partno, #monthyear {
+	   font-size: 16px;
+	   margin-top: 3px;
+	   margin-bottom: 3px;
+   }
+   
+   
+   #oraclelogo {
+	  position: absolute;
+	  top: 650px;
+	  right:0px;
+   }
+	   
+   #copyright {
+	   clear: both;
+	   page-break-before: always;
+   }
+   .regularcopyright {
+	   font-size:11px;
+	   }
+   
+	.pregacopyright {
+		color:red;
+		font-size:11px;
+		} 
+		
+
+/* ---------------------------------------- headers --------------------------- */
+
+
+h1 {
+	font-size: 40px;
+	font-weight: 400;
+	margin-left: -50px;
+	margin-top: 0px;
+	margin-bottom: 30px;
+	margin-left: -50px;
+	page-break-before: always;
+	page-break-after: avoid;
+}
+
+h2{
+    font-size: 34px;
+	font-weight: 400;
+	text-align: left;
+	/*color: #1d5aab;*/
+	color: #688B8B
+	margin-left: -50px;
+	margin-top: 30px;
+	margin-bottom: 24px;
+	page-break-before: always;
+	page-break-after: avoid;
+}
+
+h3{
+    font-size: 28px;
+	font-weight: 400;
+	margin-left: -50px;
+	margin-top: 28px;
+	margin-bottom: 20px;
+	page-break-before: always;
+	page-break-after: avoid;
+
+}
+
+h4 {
+	font-size: 24px;
+    font-weight: 500;
+	margin-top: 20px;
+	margin-bottom: 18px;
+	page-break-after: avoid;
+}
+
+h5 {
+	font-size: 20px;
+    font-weight: 500;
+	margin-top: 20px;
+	margin-bottom: 18px;
+	page-break-after: avoid;
+}
+
+h6 {
+	font-size: 18px;
+    font-weight: 500;
+	margin-top: 20px;
+	margin-bottom: 18px;
+	page-break-after: avoid;
+}
+
+H7,h7,h7 span,H8,h8,H9,h9,H10,h10 {
+	font-size: 16px;
+	text-decoration: underline;
+    font-weight: 400;
+	margin-top: 20px;
+	margin-bottom: 18px;
+	page-break-after: avoid;
+}
+
+.nobreak {
+	page-break-before: avoid;
+	page-break-after: avoid;
+}
+
+/* ------------------------------ code --------------------------------- */
+
+  code, code *, p code {
+	  font-family: monospace;
+	  page-break-inside: auto;
+	  word-wrap: break-word;
+	  word-break: break-all;
+  }
+  
+  pre {
+	font-size: 15px;
+	padding:20px;
+	margin:0;
+	max-width: 100%;
+	border: 1px solid #F5F5F5;
+	font-family: monospace;
+	white-space: pre-wrap;
+	word-break: break-all;
+	page-break-inside: auto;
+
+ }
+ 
+ pre code {
+	padding:0px;
+	margin:0px;
+	font-family: monospace;
+	white-space: pre-wrap;
+	word-break: break-all;
+	page-break-inside: auto;
+ }
+ 
+ /* ------------------------------------ links -----------------------------*/
+ 
+ a {
+	 color: #00688C;
+	 text-decoration: none;
+ }
+ 
+ 
+/* ------------------------------------- tables ---------------------------- */
+ 
+table *, .confluenceTable * {
+	font-size: 14px;
+}
+
+
+table, th, tr, td, .confluenceTable, .confluenceTh, .confluenceTr, .confluenceTd {
+	border: solid 1px #eceae5;
+	border-collapse: collapse;
+}
+
+
+table, .confluencTable {
+	margin-bottom: 20px; 
+	page-break-side: avoid;
+}
+
+table > thead > tr > th,
+div.ind table > thead > tr > th,
+.confluenceTh
+ {
+	font-weight: bold;
+	background: #f8f7f4;
+	padding: 10px;
+	word-wrap: break-word;
+}
+
+table tr, .confluenceTr {
+    vertical-align: top;
+    padding: 8px 6px 8px 6px;
+    
+}
+
+table td, .confluenceTd, table td p, .confluenceTd p {
+    padding: 4px;
+    word-wrap: break-word;
+	font-weight: normal;
+	background: #ffffff;
+	margin-top: 6px;
+	margin-bottom: 6px;
+}
+
+table caption {
+	font-style: italic;
+	font-size: 12px;
+}
+
+/* ------------------------------- bullet and numbers ------------------------- */
+
+ol ol li {
+   list-style-type: lower-alpha;
+}
+
+ol ol ol li {
+  list-style-type: lower-roman;
+}
+
+ol ol ol ol li {
+  list-style-type: decimal;
+}
+ol ol ol ol li:before {
+   content: ") ";
+   margin-left:-3px;
+ }
+
+ol ol ol ol ol li {
+  list-style-type: lower-alpha;
+}
+
+ol ol ol ol ol ol li {
+  list-style-type: lower-roman;
+}
+
+
+ul ul li {
+   list-style-type: circle;
+}
+
+ul ul ul li {
+   list-style-type: square;
+}
+
+ul ul ul ul li {
+   list-style-type: disc;
+}
+
+ul ul ul ul ul li {
+   list-style-type: circle;
+}
+
+/* mixtures of ol and li */
+ol li ul li {
+  list-style-type: disc;
+}
+
+ol ol li ul li {
+	   list-style-type: circle;
+}
+
+ol ol ol li ul li {
+	  list-style-type: disc;
+}
+
+
+/* ------------------------------------- note, caution, info --------------------------- */
+
+.confluence-information-macro {
+   page-break-inside: avoid;
+   background-color: transparent !important;
+   border-left: 8px solid #7dd1d3 !important;
+   color: #1a1816;
+   background-repeat: no-repeat;
+   background-position-x: 35px;
+   background-position-y: center;
+   margin-bottom: 30px;
+   margin-top: 30px;
+}
+.confluence-information-macro-note {
+   background-image: url(images/icon-note.svg);
+}
+
+.confluence-information-macro-warning {
+   background-image: url(images/icon-warning.svg);
+   background-position-x: 28px;
+   background-size: 30px 30px;
+}
+
+.confluence-information-macro-information {
+   background-image: url(images/icon-tip.svg);
+}
+
+.confluence-information-macro-body, p.title {
+	margin-left: 91px;
+}
+
+.confluence-information-macro p.title {
+	font-weight: bold;
+}
+
+
+/* ---------------------------------------- images ------------------------------ */
+img {
+	max-width: 650px;
+}
+ 
+
+
+
+
+
+
+
+
+
+
